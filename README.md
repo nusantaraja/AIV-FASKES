@@ -47,5 +47,8 @@ Laporan ini disusun oleh ICS, dengan dukungan dari EKUITAS MEDIA INVESTAMA (EMI)
 ## Lisensi
 Laporan ini dilisensikan di bawah [MIT License](LICENSE).
 
+## Lihat Juga
+Laporan lengkap dapat dilihat di [GitHub Pages](https://nusantaraja.github.io/AIV-FASKES/).
+
 ## Kontak
 Untuk pertanyaan lebih lanjut, silakan hubungi [ICS](mailto:ics@iname.com).
