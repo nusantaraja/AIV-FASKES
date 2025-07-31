@@ -44,9 +44,6 @@ Laporan ini membahas implementasi teknologi AI suara di klinik umum, klinik keca
 ## Penulis
 Laporan ini disusun oleh ICS, dengan dukungan dari EKUITAS MEDIA INVESTAMA (EMI).
 
-## Lisensi
-Laporan ini dilisensikan di bawah [MIT License](LICENSE).
-
 ## Lihat Juga
 Laporan lengkap dapat dilihat di [GitHub Pages](https://nusantaraja.github.io/AIV-FASKES/).
 
