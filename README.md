@@ -42,7 +42,7 @@ Laporan ini membahas implementasi teknologi AI suara di klinik umum, klinik keca
    - Proyeksi pengembangan AI suara di sektor kesehatan Indonesia.
 
 ## Penulis
-Laporan ini disusun oleh [ICS], dengan dukungan dari [EKUITAS MEDIA INVESTAMA (EMI)].
+Laporan ini disusun oleh ICS, dengan dukungan dari EKUITAS MEDIA INVESTAMA (EMI).
 
 ## Lisensi
 Laporan ini dilisensikan di bawah [MIT License](LICENSE).
