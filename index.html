@@ -1,0 +1,1346 @@
+<!DOCTYPE html><html lang="id"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Implementasi AI Suara di Klinik Indonesia: Layanan Pasien &amp; Edukasi Kesehatan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2c3e50',
+                        secondary: '#8b5a6b',
+                        accent: '#d4a574',
+                        neutral: '#f8f6f3',
+                        'earth-tone': '#a67c52',
+                        'soft-blue': '#7c9cb4',
+                        'warm-gray': '#6b7280'
+                    },
+                    fontFamily: {
+                        'serif': ['Crimson Text', 'serif'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-overlay {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(139, 90, 107, 0.8) 50%, rgba(212, 165, 116, 0.7) 100%);
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        .toc-fixed {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 280px;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            z-index: 50;
+        }
+        .content-main {
+            margin-left: 320px;
+        }
+        
+.mermaid-container {
+    display: flex;
+    justify-content: center;
+    min-height: 300px;
+    max-height: 800px;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.mermaid-container .mermaid {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    cursor: grab;
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.mermaid-container .mermaid svg {
+    max-width: 100%;
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.mermaid-container .mermaid:active {
+    cursor: grabbing;
+}
+
+.mermaid-container.zoomed .mermaid {
+    height: 100%;
+    width: 100%;
+    cursor: grab;
+}
+
+.mermaid-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mermaid-control-btn {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #374151;
+    font-size: 14px;
+    min-width: 36px;
+    height: 36px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-control-btn:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+    color: #3b82f6;
+    transform: translateY(-1px);
+}
+
+.mermaid-control-btn:active {
+    transform: scale(0.95);
+}
+
+/* Enhanced node styling for better contrast */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+    stroke-width: 2px !important;
+}
+
+/* Specific styling for different node types to ensure contrast */
+.mermaid .node[id*="A"] rect,
+.mermaid .node[id*="A"] polygon {
+    fill: #e3f2fd !important;
+    stroke: #1976d2 !important;
+}
+
+.mermaid .node[id*="B"] rect,
+.mermaid .node[id*="B"] polygon {
+    fill: #e8f5e8 !important;
+    stroke: #388e3c !important;
+}
+
+.mermaid .node[id*="C"] rect,
+.mermaid .node[id*="C"] polygon {
+    fill: #fff3e0 !important;
+    stroke: #f57c00 !important;
+}
+
+.mermaid .node[id*="D"] rect,
+.mermaid .node[id*="D"] polygon {
+    fill: #f3e5f5 !important;
+    stroke: #7b1fa2 !important;
+}
+
+.mermaid .node[id*="E"] rect,
+.mermaid .node[id*="E"] polygon {
+    fill: #ffebee !important;
+    stroke: #d32f2f !important;
+}
+
+.mermaid .node[id*="F"] rect,
+.mermaid .node[id*="F"] polygon {
+    fill: #e0f7fa !important;
+    stroke: #0097a7 !important;
+}
+
+/* Text styling with high contrast */
+.mermaid .nodeLabel,
+.mermaid .node text,
+.mermaid text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    fill: #1f2937 !important;
+}
+
+/* Edge styling */
+.mermaid .edgePath path {
+    stroke: #6b7280 !important;
+    stroke-width: 2px !important;
+}
+
+.mermaid .arrowheadPath {
+    fill: #6b7280 !important;
+}
+
+@media (max-width: 1024px) {
+    .toc-fixed {
+        display: none;
+    }
+    .content-main {
+        margin-left: 0;
+    }
+    .mermaid-control-btn:not(.reset-zoom) {
+        display: none;
+    }
+    .mermaid-controls {
+        top: auto;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content .grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-content h1.text-4xl {
+        font-size: 2.25rem;
+    }
+    .hero-content p.text-xl {
+        font-size: 1.125rem;
+    }
+    .content-main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .hero-content .grid > div img {
+        height: auto;
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-content h1.text-4xl {
+        font-size: 1.875rem;
+    }
+    .hero-content p.text-xl {
+        font-size: 1rem;
+    }
+}
+    </style>
+  </head>
+
+  <body class="bg-neutral font-sans text-gray-800 scroll-smooth">
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-6">
+      <h3 class="font-serif font-semibold text-lg text-primary mb-4">Daftar Isi</h3>
+      <ul class="space-y-2 text-sm">
+        <li>
+          <a href="#introduction" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Pendahuluan</a>
+        </li>
+        <li>
+          <a href="#voice-solutions" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Solusi AI Suara Multibahasa</a>
+        </li>
+        <li>
+          <a href="#integration" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Integrasi Sistem &amp; RME</a>
+        </li>
+        <li>
+          <a href="#sophistication" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Tingkat Kecanggihan</a>
+        </li>
+        <li>
+          <a href="#case-studies" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Studi Kasus &amp; Aplikasi</a>
+        </li>
+        <li>
+          <a href="#budget" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Pertimbangan Anggaran</a>
+        </li>
+        <li>
+          <a href="#recommendations" class="text-warm-gray hover:text-primary transition-colors duration-200 block py-1">Rekomendasi &amp; Prospek</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-main">
+      <!-- Hero Section -->
+      <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+          <img src="https://kimi-web-img.moonshot.cn/img/analysis.netray.id/3f7de3d122bf657a8da2bf2bb58a0879bf90864a.jpg" alt="Klinik modern di Indonesia dengan asisten virtual AI" class="w-full h-full object-cover" size="wallpaper" aspect="wide" style="photo" query="klinik modern indonesia asisten virtual AI" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+          <div class="gradient-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Main Title &amp; Subtitle -->
+          <div class="text-white">
+            <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 text-shadow">
+              <em>Transformasi Layanan Kesehatan</em>
+              <br/>
+              <span class="text-accent">Melalui AI Suara</span>
+            </h1>
+            <p class="text-xl md:text-2xl font-light mb-8 text-shadow opacity-90">
+              Implementasi teknologi kecerdasan buatan berbasis suara untuk meningkatkan layanan pelanggan dan edukasi pasien di klinik Indonesia
+            </p>
+          </div>
+
+          <!-- Key Highlights Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="glass-effect rounded-xl p-6 text-white">
+              <div class="text-3xl font-bold text-accent mb-2">40%</div>
+              <div class="text-sm opacity-80">Peningkatan Produktivitas</div>
+            </div>
+            <div class="glass-effect rounded-xl p-6 text-white">
+              <div class="text-3xl font-bold text-accent mb-2">60%</div>
+              <div class="text-sm opacity-80">Kepuasan Pelanggan</div>
+            </div>
+            <div class="glass-effect rounded-xl p-6 text-white">
+              <div class="text-3xl font-bold text-accent mb-2">90%</div>
+              <div class="text-sm opacity-80">Pertanyaan Teratasi Mandiri</div>
+            </div>
+            <div class="glass-effect rounded-xl p-6 text-white">
+              <div class="text-3xl font-bold text-accent mb-2">11+</div>
+              <div class="text-sm opacity-80">Bahasa Daerah Didukung</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Introduction Section -->
+      <section id="introduction" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Pendahuluan: Kebutuhan dan Tantangan AI Suara di Klinik Indonesia</h2>
+
+          <div class="prose prose-lg mx-auto">
+            <h3 class="font-serif text-2xl font-semibold text-secondary mb-6">Tujuan Utama: Meningkatkan Layanan Pelanggan dan Edukasi Pasien</h3>
+            <p class="text-gray-700 leading-relaxed mb-8">
+              Implementasi teknologi Artificial Intelligence (AI) suara dalam sektor kesehatan, khususnya di klinik-klinik di Indonesia, bertujuan untuk <strong>meningkatkan kualitas layanan pelanggan dan edukasi pasien secara signifikan</strong>. Teknologi ini memungkinkan otomatisasi berbagai tugas administratif yang sebelumnya memakan banyak waktu tenaga medis, seperti penjadwalan janji temu, pengingat pemeriksaan rutin, dan penanganan pertanyaan umum pasien.
+              <a href="https://www.verloop.io/blog/voice-ai-in-healthcare/" class="text-soft-blue hover:underline" target="_blank">
+                <i class="fas fa-external-link-alt text-xs ml-1"></i>
+              </a>
+            </p>
+
+            <div class="bg-accent/10 border-l-4 border-accent p-6 rounded-r-lg mb-8">
+              <p class="text-gray-700 italic">
+                &#34;Studi terbaru menunjukkan bahwa penggunaan solusi panggilan AI suara di industri kesehatan dapat meningkatkan produktivitas hingga 40% dan tingkat kepuasan pelanggan hingga 60%.&#34;
+              </p>
+            </div>
+
+            <h3 class="font-serif text-2xl font-semibold text-secondary mb-6">Sasaran Pengguna: Pasien dan Staf Klinik</h3>
+            <p class="text-gray-700 leading-relaxed mb-8">
+              Sasaran pengguna utama dari implementasi AI suara di klinik mencakup dua kelompok besar, yaitu <strong>pasien secara langsung dan staf klinik</strong>. Bagi pasien, AI suara dapat berperan sebagai <strong>asisten virtual yang siap membantu 24/7</strong>, menjawab pertanyaan seputar layanan klinik, memberikan informasi kesehatan, mengingatkan jadwal minum obat, atau bahkan melakukan asesmen awal gejala.
+              <a href="https://www.raftlabs.com/blog/applications-of-voice-ai-in-healthcare/" class="text-soft-blue hover:underline" target="_blank">
+                <i class="fas fa-external-link-alt text-xs ml-1"></i>
+              </a>
+            </p>
+
+            <h3 class="font-serif text-2xl font-semibold text-secondary mb-6">Tantangan Implementasi</h3>
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+              <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                <h4 class="font-semibold text-red-800 mb-2">Biaya</h4>
+                <p class="text-sm text-red-700">Implementasi dan pemeliharaan sistem AI, terutama bagi klinik kecil dan menengah dengan anggaran terbatas</p>
+              </div>
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h4 class="font-semibold text-yellow-800 mb-2">Integrasi Sistem</h4>
+                <p class="text-sm text-yellow-700">Integrasi dengan sistem manajemen klinik atau Rekam Medis Elektronik (RME) yang sudah ada</p>
+              </div>
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 class="font-semibold text-blue-800 mb-2">Dukungan Bahasa Daerah</h4>
+                <p class="text-sm text-blue-700">Dukungan bahasa daerah seperti Jawa dan Sunda menjadi pertimbangan penting di Indonesia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Voice Solutions Section -->
+      <section id="voice-solutions" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Solusi AI Suara dengan Dukungan Bahasa Indonesia, Jawa, dan Sunda</h2>
+
+          <!-- Comparison Table -->
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th class="px-6 py-4 text-left font-semibold">Penyedia Solusi</th>
+                    <th class="px-6 py-4 text-left font-semibold">Dukungan Bahasa</th>
+                    <th class="px-6 py-4 text-left font-semibold">Fitur Utama untuk Klinik</th>
+                    <th class="px-6 py-4 text-left font-semibold">Integrasi RME/EHR</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-semibold text-primary">Yellow.ai (Komodo-7B)</div>
+                      <div class="text-sm text-gray-600">Platform AI canggih</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Ya (11+ bahasa daerah)</div>
+                      <div class="text-xs text-gray-500">Indonesia, Jawa, Sunda, dll</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">VoiceX, Analisis Sentimen, Pemesanan Janji Temu</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-green-600">&gt;150 integrasi plug-and-play</div>
+                      <div class="text-xs text-gray-500">Termasuk EPIC</div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-semibold text-primary">Wiz.AI</div>
+                      <div class="text-sm text-gray-600">Voicebot solutions</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Ya (Indonesia, Jawa, Sunda)</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Talkbot, Platform Analitik, Self-learning AI</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-yellow-600">Potensi manajemen EHR</div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-semibold text-primary">ProtoAI (Sahabat-AI)</div>
+                      <div class="text-sm text-gray-600">LLM lokal</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Ya (Indonesia, Jawa, Sunda)</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">LLM untuk layanan publik &amp; kesehatan</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-500">Belum banyak diungkap</div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-semibold text-primary">Cekat.AI</div>
+                      <div class="text-sm text-gray-600">Fokus klinik kecantikan</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Ya (Jawa, Sunda, Betawi, Madura)</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">AI Agent, Speech Recognition, TTS/STT</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-500">Belum banyak diungkap</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Solution Details -->
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">Yellow.ai (Komodo-7B)</h3>
+              <img src="https://kimi-web-img.moonshot.cn/img/i.imgur.com/53386e7a32e68d62d93bc30dd3ff0428ab39aef4.png" alt="Antarmuka dashboard AI Yellow.ai" class="w-full h-48 object-cover rounded-lg mb-4" size="medium" aspect="wide" style="photo" query="Yellow.ai dashboard antarmuka" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+              <p class="text-gray-700 mb-4">
+                Yellow.ai menawarkan platform AI bernama <strong>Komodo-7B</strong> yang secara khusus dirancang untuk mendukung interaksi pelanggan dalam berbagai bahasa daerah di Indonesia, termasuk Bahasa Indonesia, Jawa, dan Sunda.
+                <a href="https://yellow.ai/komodo-learn-more/" class="text-soft-blue hover:underline" target="_blank">
+                  <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                </a>
+              </p>
+              <div class="bg-primary/5 border-l-4 border-primary p-4 rounded-r-lg">
+                <p class="text-sm font-medium text-primary">Fitur Unggulan:</p>
+                <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                  <li>• VoiceX (AI suara mirip manusia)</li>
+                  <li>• Advanced Search &amp; Summarization</li>
+                  <li>• Analisis Sentimen dalam bahasa daerah</li>
+                  <li>• Kepatuhan HIPAA, SOC2, GDPR</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">Wiz.AI</h3>
+              <img src="https://ark-content-generation-v2-cn-beijing.tos-cn-beijing.volces.com/doubao-seedream-3-0-t2i/021753961964194e3e915389f1b3c09d83d2424fa86a0595ece78.jpeg?X-Tos-Algorithm=TOS4-HMAC-SHA256&amp;X-Tos-Credential=AKLTYWJkZTExNjA1ZDUyNDc3YzhjNTM5OGIyNjBhNDcyOTQ%2F20250731%2Fcn-beijing%2Ftos%2Frequest&amp;X-Tos-Date=20250731T113927Z&amp;X-Tos-Expires=86400&amp;X-Tos-Signature=595f97b33114d0b236148a96f022a2c1132d368ddcc25ae37806a80074582520&amp;X-Tos-SignedHeaders=host&amp;x-tos-process=image%2Fwatermark%2Cimage_YXNzZXRzL3dhdGVybWFyay5wbmc_eC10b3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsUF85" alt="Antarmuka voicebot Wiz.AI untuk pelayanan kesehatan" class="w-full h-48 object-cover rounded-lg mb-4" size="medium" aspect="wide" style="photo" query="Wiz.AI voicebot healthcare interface" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+              <p class="text-gray-700 mb-4">
+                Wiz.AI menawarkan solusi voicebot yang dapat mendukung layanan pelanggan dan edukasi pasien di klinik-klinik di Indonesia, terutama karena kemampuannya dalam menangani keragaman bahasa.
+                <a href="https://www.wiz.ai/transcosmos-develops-voicebot-solutions-for-contact-centers/" class="text-soft-blue hover:underline" target="_blank">
+                  <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                </a>
+              </p>
+              <div class="bg-secondary/5 border-l-4 border-secondary p-4 rounded-r-lg">
+                <p class="text-sm font-medium text-secondary">Keunggulan:</p>
+                <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                  <li>• Talkbot (95% mirip manusia)</li>
+                  <li>• Platform analitik canggih</li>
+                  <li>• Waktu penyebaran cepat (mingguan)</li>
+                  <li>• Harga fleksibel</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Integration Section -->
+      <section id="integration" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Integrasi dengan Sistem Manajemen Klinik dan RME</h2>
+
+          <div class="mb-12">
+            <div class="mermaid-container">
+              <div class="mermaid-controls">
+                <button class="mermaid-control-btn zoom-in" title="放大">
+                  <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="mermaid-control-btn zoom-out" title="缩小">
+                  <i class="fas fa-search-minus"></i>
+                </button>
+                <button class="mermaid-control-btn reset-zoom" title="重置">
+                  <i class="fas fa-expand-arrows-alt"></i>
+                </button>
+                <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+              <div class="mermaid" id="integration-diagram">
+                graph TB
+                A[&#34;AI Suara&#34;] --&gt; B[&#34;API Integrasi&#34;]
+                B --&gt; C[&#34;Sistem RME&#34;]
+                B --&gt; D[&#34;Manajemen Klinik&#34;]
+                B --&gt; E[&#34;Telemedicine&#34;]
+                C --&gt; F[&#34;SatuSehat Platform&#34;]
+                D --&gt; G[&#34;Penjadwalan&#34;]
+                D --&gt; H[&#34;Billing System&#34;]
+                E --&gt; I[&#34;Konsultasi Online&#34;]
+
+                style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#1f2937
+                style B fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,color:#1f2937
+                style C fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#1f2937
+                style D fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#1f2937
+                style E fill:#ffebee,stroke:#d32f2f,stroke-width:2px,color:#1f2937
+                style F fill:#e0f7fa,stroke:#0097a7,stroke-width:2px,color:#1f2937
+                style G fill:#f1f8e9,stroke:#689f38,stroke-width:2px,color:#1f2937
+                style H fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#1f2937
+                style I fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px,color:#1f2937
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-soft-blue/10 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">Solusi Berbasis RME</h3>
+              <p class="text-gray-700 mb-4">
+                <strong>eHealth.co.id</strong> muncul sebagai penyedia solusi RME di Indonesia yang mulai mengintegrasikan kecerdasan buatan (AI) ke dalam platform mereka, termasuk fitur &#34;AI RME berbasis suara&#34;.
+                <a href="https://ehealth.co.id/artificial-intelligence/" class="text-soft-blue hover:underline" target="_blank">
+                  <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                </a>
+              </p>
+              <div class="bg-white rounded-lg p-4">
+                <p class="text-sm font-medium text-primary mb-2">Keunggulan:</p>
+                <ul class="text-sm text-gray-600 space-y-1">
+                  <li>• Hemat waktu dokumentasi (15 menit → 5 detik)</li>
+                  <li>• Integrasi dengan SatuSehat</li>
+                  <li>• Harga mulai Rp150.000/bulan</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-accent/10 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-4">Solusi Chatbot/EHR</h3>
+              <p class="text-gray-700 mb-4">
+                Solusi &#34;Pre-Trained Agentic AI Chatbot for Healthcare by Webify&#34; yang tersedia di Microsoft AppSource dapat berintegrasi dengan platform EHR populer seperti Epic, Cerner, SAP, dan Oracle.
+                <a href="https://appsource.microsoft.com/id-id/product/saas/webify.webify_healthcare_aichatbot?tab=overview" class="text-soft-blue hover:underline" target="_blank">
+                  <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                </a>
+              </p>
+              <div class="bg-white rounded-lg p-4">
+                <p class="text-sm font-medium text-primary mb-2">Fitur:</p>
+                <ul class="text-sm text-gray-600 space-y-1">
+                  <li>• Dukungan 38+ bahasa</li>
+                  <li>• Voice AI untuk panggilan</li>
+                  <li>• Kepatuhan HIPAA</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-red-50 border border-red-200 rounded-xl p-8">
+            <h3 class="font-serif text-2xl font-semibold text-red-800 mb-4">Tantangan Integrasi di Klinik Indonesia</h3>
+            <div class="grid md:grid-cols-3 gap-4">
+              <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-2xl text-red-600 mb-2"></i>
+                <p class="font-medium text-red-800">Kurangnya Standarisasi</p>
+                <p class="text-sm text-red-700">Sistem RME yang beragam</p>
+              </div>
+              <div class="text-center">
+                <i class="fas fa-lock text-2xl text-red-600 mb-2"></i>
+                <p class="font-medium text-red-800">Keamanan Data</p>
+                <p class="text-sm text-red-700">Kepatuhan regulasi &amp; privasi</p>
+              </div>
+              <div class="text-center">
+                <i class="fas fa-users text-2xl text-red-600 mb-2"></i>
+                <p class="font-medium text-red-800">Kesiapan SDM</p>
+                <p class="text-sm text-red-700">Literasi digital &amp; resistensi</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sophistication Levels Section -->
+      <section id="sophistication" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Tingkat Kecanggihan dan Skala Operasional</h2>
+
+          <!-- Comparison Table -->
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th class="px-6 py-4 text-left font-semibold">Tingkat Kecanggihan</th>
+                    <th class="px-6 py-4 text-left font-semibold">Fitur Utama</th>
+                    <th class="px-6 py-4 text-left font-semibold">Contoh Aplikasi</th>
+                    <th class="px-6 py-4 text-left font-semibold">Skala Klinik</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-semibold text-green-600">Solusi Sederhana</div>
+                      <div class="text-sm text-gray-600">Automasi dasar</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">FAQ, penjadwalan, pengingat otomatis</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Pemesanan janji, info klinik dasar</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-green-600">Kecil, Menengah</div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-semibold text-blue-600">Solusi Canggih</div>
+                      <div class="text-sm text-gray-600">Pemahaman konteks</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Analisis sentimen, integrasi EHR, personalisasi</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm">Asesmen gejala, edukasi kesehatan, dokumentasi real-time</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-blue-600">Menengah, Besar</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-green-800 mb-4">Solusi Sederhana</h3>
+              <img src="https://kimi-web-img.moonshot.cn/img/blog.assist.id/14ca274a754074e0a84ddc656847c362854baa25.jpg" alt="Antarmuka sistem penjadwalan otomatis di klinik" class="w-full h-40 object-cover rounded-lg mb-4" size="medium" aspect="wide" style="photo" query="sistem penjadwalan otomatis klinik" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+              <p class="text-gray-700 mb-4">
+                Solusi AI suara tingkat sederhana dapat diimplementasikan untuk <strong>mengotomatisasi layanan dasar dan penyediaan informasi kepada pasien</strong> di klinik.
+              </p>
+              <div class="space-y-2">
+                <div class="flex items-center text-sm text-green-700">
+                  <i class="fas fa-check-circle mr-2"></i>
+                  Penjadwalan janji temu otomatis
+                </div>
+                <div class="flex items-center text-sm text-green-700">
+                  <i class="fas fa-check-circle mr-2"></i>
+                  Pengingat otomatis via panggilan/sms
+                </div>
+                <div class="flex items-center text-sm text-green-700">
+                  <i class="fas fa-check-circle mr-2"></i>
+                  Pusat informasi dasar 24/7
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-blue-800 mb-4">Solusi Canggih</h3>
+              <img src="https://kimi-web-img.moonshot.cn/img/www.unite.ai/171d41d3d874da3f98ddc2c8c5b054e69bcd4598.webp" alt="Dokter menggunakan asisten AI suara canggih di klinik" class="w-full h-40 object-cover rounded-lg mb-4" size="medium" aspect="wide" style="photo" query="dokter menggunakan asisten AI suara" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+              <p class="text-gray-700 mb-4">
+                Solusi AI suara tingkat canggih dirancang untuk <strong>memahami konteks percakapan yang lebih luas dan menangani pertanyaan serta permintaan yang lebih kompleks</strong> dari pasien.
+              </p>
+              <div class="space-y-2">
+                <div class="flex items-center text-sm text-blue-700">
+                  <i class="fas fa-star mr-2"></i>
+                  Asesmen gejala awal pasien
+                </div>
+                <div class="flex items-center text-sm text-blue-700">
+                  <i class="fas fa-star mr-2"></i>
+                  Edukasi kesehatan terpersonalisasi
+                </div>
+                <div class="flex items-center text-sm text-blue-700">
+                  <i class="fas fa-star mr-2"></i>
+                  Dokumentasi klinis real-time
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Case Studies Section -->
+      <section id="case-studies" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Studi Kasus dan Aplikasi di Sektor Kesehatan Indonesia</h2>
+
+          <div class="space-y-12">
+            <!-- Cekat.AI Case Study -->
+            <div class="bg-gradient-to-r from-secondary/10 to-accent/10 rounded-xl p-8">
+              <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h3 class="font-serif text-2xl font-semibold text-primary mb-4">AI untuk Layanan Pelanggan di Klinik Kecantikan</h3>
+                  <p class="text-gray-700 mb-6">
+                    <strong>Cekat.AI</strong> muncul sebagai solusi AI Agent yang secara spesifik ditujukan untuk meningkatkan layanan pelanggan di industri kesehatan dan kecantikan, termasuk klinik kecantikan dan salon di Indonesia.
+                    <a href="https://cekat.ai/blog/news/keuntungan-integrasi-teknologi-ai-agent-dalam-sistem-reservasi-klinik-dan-salon/" class="text-soft-blue hover:underline" target="_blank">
+                      <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                    </a>
+                  </p>
+
+                  <div class="bg-white rounded-lg p-6 mb-6">
+                    <h4 class="font-semibold text-primary mb-3">Hasil Implementasi:</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="text-center">
+                        <div class="text-2xl font-bold text-secondary">45%</div>
+                        <div class="text-sm text-gray-600">Peningkatan Reservasi</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-2xl font-bold text-secondary">30%</div>
+                        <div class="text-sm text-gray-600">Efisiensi Operasional</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <img src="https://kimi-web-img.moonshot.cn/img/lavalen.co.id/e5d34f7d2ce51b5328e025d4e0921e168be7ba41.webp" alt="Interior modern klinik kecantikan di Indonesia" class="w-full h-64 object-cover rounded-lg shadow-lg" size="medium" aspect="wide" style="photo" query="klinik kecantikan modern interior indonesia" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- TehAI Case Study -->
+            <div class="bg-earth-tone/10 rounded-xl p-8">
+              <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="order-2 md:order-1">
+                  <img src="https://kimi-web-img.moonshot.cn/img/lights.iconpln.co.id/a3fbeeac8924fffd4a07b652a5c715ef7bcfd2cf.jpeg" alt="Petugas kesehatan menggunakan tablet AI di puskesmas" class="w-full h-64 object-cover rounded-lg shadow-lg" size="medium" aspect="wide" style="photo" query="petugas kesehatan tablet AI puskesmas" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                </div>
+                <div class="order-1 md:order-2">
+                  <h3 class="font-serif text-2xl font-semibold text-primary mb-4">AI untuk Edukasi Kesehatan Masyarakat</h3>
+                  <p class="text-gray-700 mb-6">
+                    Di Jawa Barat, khususnya di Kabupaten Sumedang, telah diluncurkan sebuah platform berbasis Kecerdasan Buatan Generatif (GenAI) bernama <strong>TehAI</strong>. Platform ini merupakan hasil kolaborasi antara Pemerintah Kabupaten Sumedang dan Docquity.
+                    <a href="http://www.healthcareitnews.com/news/asia/indonesian-puskesmas-enhancing-community-health-response-genai" class="text-soft-blue hover:underline" target="_blank">
+                      <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                    </a>
+                  </p>
+
+                  <div class="bg-white rounded-lg p-4">
+                    <h4 class="font-semibold text-primary mb-2">Fokus Utama:</h4>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• Peningkatan kapasitas tenaga kesehatan di puskesmas</li>
+                      <li>• Diagnosis TB, stunting, dan hipertensi</li>
+                      <li>• Akses ke data kredibel dan alat AI</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMR/AI Integration -->
+            <div class="bg-soft-blue/10 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-6">Inisiatif AI dalam Rekam Medis Elektronik (RME)</h3>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg p-6">
+                  <h4 class="font-semibold text-primary mb-3">EMC Healthcare</h4>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Meningkatkan sistem manajemen rekam medis dengan InterSystems IntelliCare™
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    <i class="fas fa-microphone mr-1"></i>
+                    Dokumentasi otomatis via audio
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-6">
+                  <h4 class="font-semibold text-primary mb-3">Kemenkes &amp; Google Cloud</h4>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Kerja sama pengembangan Generative AI untuk platform SATUSEHAT
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    <i class="fas fa-robot mr-1"></i>
+                    Chat untuk deteksi penyakit
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-6">
+                  <h4 class="font-semibold text-primary mb-3">SPWPM</h4>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Sistem Pengenal Wicara untuk Pelayanan Medis (ASR khusus dikte medis)
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    <i class="fas fa-chart-line mr-1"></i>
+                    Target akurasi 95%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Budget Considerations -->
+      <section id="budget" class="py-20 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Pertimbangan Anggaran dan Biaya Implementasi</h2>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-green-800 mb-4">Solusi Terjangkau</h3>
+              <div class="space-y-4">
+                <div class="bg-white rounded-lg p-4">
+                  <h4 class="font-semibold text-primary">eHealth.co.id</h4>
+                  <div class="flex justify-between items-center mt-2">
+                    <span class="text-sm text-gray-600">RME + AI Transkripsi</span>
+                    <span class="font-semibold text-green-600">Rp150.000/bulan</span>
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-4">
+                  <h4 class="font-semibold text-primary">Azure AI Speech</h4>
+                  <div class="flex justify-between items-center mt-2">
+                    <span class="text-sm text-gray-600">Pay as You Go</span>
+                    <span class="font-semibold text-green-600">$1.20/jam</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-blue-800 mb-4">Faktor Penentu Biaya</h3>
+              <div class="space-y-3">
+                <div class="flex items-center text-sm">
+                  <i class="fas fa-cog text-blue-600 mr-3"></i>
+                  <span>Tingkat kecanggihan solusi</span>
+                </div>
+                <div class="flex items-center text-sm">
+                  <i class="fas fa-link text-blue-600 mr-3"></i>
+                  <span>Skala integrasi dengan sistem</span>
+                </div>
+                <div class="flex items-center text-sm">
+                  <i class="fas fa-users text-blue-600 mr-3"></i>
+                  <span>Jumlah pengguna &amp; volume interaksi</span>
+                </div>
+                <div class="flex items-center text-sm">
+                  <i class="fas fa-graduation-cap text-blue-600 mr-3"></i>
+                  <span>Pelatihan staf &amp; pemeliharaan</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-accent/10 rounded-xl p-8">
+            <h3 class="font-serif text-2xl font-semibold text-primary mb-6">Estimasi Biaya Microsoft Azure AI Speech Services</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white rounded-lg p-6">
+                <h4 class="font-semibold text-primary mb-3">Speech to Text</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span>Real-time (custom):</span>
+                    <span class="font-semibold">$1.20/jam</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Batch transcription:</span>
+                    <span class="font-semibold">$0.225/jam</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Paket 2.000 jam:</span>
+                    <span class="font-semibold">$1.600/bulan</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg p-6">
+                <h4 class="font-semibold text-primary mb-3">Text to Speech (Neural)</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span>Pay as You Go:</span>
+                    <span class="font-semibold">$16/juta karakter</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Paket 80 juta karakter:</span>
+                    <span class="font-semibold">$960/bulan</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Kelebihan:</span>
+                    <span class="font-semibold">$12/juta karakter</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recommendations -->
+      <section id="recommendations" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+          <h2 class="font-serif text-4xl font-semibold text-primary mb-12 text-center">Rekomendasi dan Prospek AI Suara di Klinik Indonesia</h2>
+
+          <div class="space-y-12">
+            <!-- Solution Selection -->
+            <div class="bg-primary/5 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-6">Pilihan Solusi Berdasarkan Kebutuhan Spesifik</h3>
+              <p class="text-gray-700 mb-6">
+                Pemilihan solusi AI suara untuk klinik di Indonesia harus didasarkan pada <strong>analisis mendalam terhadap kebutuhan spesifik klinik tersebut</strong>. Faktor-faktor yang perlu dipertimbangkan meliputi skala operasional, jenis layanan, volume interaksi, tingkat kecanggihan, anggaran, dan kesiapan staf.
+              </p>
+
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                  <h4 class="font-semibold text-green-800 mb-3">Klinik Kecil</h4>
+                  <p class="text-sm text-gray-700 mb-3">
+                    Mulai dengan solusi sederhana untuk otomatisasi tugas administratif rutin
+                  </p>
+                  <div class="text-xs text-green-700">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    Rekomendasi: Model &#34;pay as you go&#34;
+                  </div>
+                </div>
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                  <h4 class="font-semibold text-yellow-800 mb-3">Klinik Menengah</h4>
+                  <p class="text-sm text-gray-700 mb-3">
+                    Pertimbangkan solusi dengan fitur lengkap dan kemampuan multibahasa
+                  </p>
+                  <div class="text-xs text-yellow-700">
+                    <i class="fas fa-balance-scale mr-1"></i>
+                    Rekomendasi: Yellow.ai, Wiz.AI
+                  </div>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <h4 class="font-semibold text-blue-800 mb-3">Klinik Besar</h4>
+                  <p class="text-sm text-gray-700 mb-3">
+                    Investasikan solusi canggih dengan integrasi mendalam dan personalisasi tinggi
+                  </p>
+                  <div class="text-xs text-blue-700">
+                    <i class="fas fa-rocket mr-1"></i>
+                    Rekomendasi: Solusi enterprise dengan analitik
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Critical Success Factors -->
+            <div class="bg-secondary/10 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-secondary mb-6">Pentingnya Dukungan Bahasa Daerah dan Integrasi Sistem</h3>
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="font-semibold text-secondary mb-4">Dukungan Bahasa Daerah</h4>
+                  <p class="text-gray-700 mb-4">
+                    Kemampuan AI suara untuk memahami dan berkomunikasi secara efektif dalam bahasa ibu pasien tidak hanya meningkatkan pengalaman pengguna tetapi juga memastikan akurasi informasi yang disampaikan.
+                  </p>
+                  <div class="bg-white rounded-lg p-4">
+                    <p class="text-sm font-medium text-secondary mb-2">Inisiatif Pendukung:</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• NusaCrowd: Dataset ASR/TTS bahasa daerah</li>
+                      <li>• Wav2vec2 fine-tuned untuk Jawa &amp; Sunda</li>
+                      <li>• Model Sea-Lion untuk bahasa Asia Tenggara</li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-secondary mb-4">Integrasi Sistem</h4>
+                  <p class="text-gray-700 mb-4">
+                    Integrasi yang efektif dengan sistem RME dan manajemen klinik sangat penting untuk memastikan AI suara dapat mengakses dan memperbarui data pasien secara akurat dan aman.
+                  </p>
+                  <div class="bg-white rounded-lg p-4">
+                    <p class="text-sm font-medium text-secondary mb-2">Standar Penting:</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• API modular dan standar HL7/FHIR</li>
+                      <li>• Integrasi dengan platform SatuSehat</li>
+                      <li>• Kepatuhan UU Perlindungan Data Pribadi</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Future Outlook -->
+            <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-8">
+              <h3 class="font-serif text-2xl font-semibold text-primary mb-6">Proyeksi Pengembangan AI Suara di Sektor Kesehatan Indonesia</h3>
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <img src="https://kimi-web-img.moonshot.cn/img/monsterar.net/c0715c054af5a64db2ab24dee87901b947d5e055.jpg" alt="Teknologi AI suara di sektor kesehatan Indonesia" class="w-full h-48 object-cover rounded-lg mb-4" size="medium" aspect="wide" style="photo" query="AI suara kesehatan Indonesia" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                </div>
+                <div class="space-y-4">
+                  <p class="text-gray-700">
+                    Proyeksi pengembangan AI suara di sektor kesehatan Indonesia menunjukkan <strong>tren yang positif dan menjanjikan</strong>, didorong oleh meningkatnya adopsi teknologi digital, kebutuhan akan efisiensi layanan, dan fokus pada pengalaman pasien.
+                  </p>
+                  <div class="bg-white rounded-lg p-4">
+                    <p class="text-sm font-medium text-primary mb-2">Faktor Pendukung:</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• Dukungan pemerintah melalui kerja sama Kemenkes-Google Cloud</li>
+                      <li>• Perkembangan LLM seperti Sea-Lion untuk bahasa Asia</li>
+                      <li>• Semakin banyak penyedia solusi lokal &amp; internasional</li>
+                      <li>• Penyempurnaan regulasi dan standar interoperabilitas</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-primary text-white py-12">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+          <p class="text-lg font-light mb-4">
+            &#34;Masa depan layanan kesehatan di Indonesia semakin personal, efisien, dan mudah diakses melalui teknologi AI suara yang memahami keragaman bahasa dan budaya lokal.&#34;
+          </p>
+          <div class="text-sm opacity-75">
+            Laporan Implementasi AI Suara untuk Layanan Pelanggan dan Edukasi Pasien di Klinik Indonesia
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+        // Initialize Mermaid with enhanced configuration
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#e3f2fd',
+                primaryTextColor: '#1f2937',
+                primaryBorderColor: '#1976d2',
+                lineColor: '#6b7280',
+                secondaryColor: '#e8f5e8',
+                tertiaryColor: '#fff3e0',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f8f9fa',
+                tertiaryBkg: '#f1f3f4'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            fontFamily: 'Inter, sans-serif'
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        // Initialize mermaid controls after mermaid renders
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for mermaid to render, then initialize controls
+            setTimeout(initializeMermaidControls, 1000);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in TOC
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-fixed a[href^="#"]');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('text-primary', 'font-semibold');
+                link.classList.add('text-warm-gray');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.remove('text-warm-gray');
+                    link.classList.add('text-primary', 'font-semibold');
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>
